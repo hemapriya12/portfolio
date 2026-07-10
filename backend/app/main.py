@@ -98,11 +98,11 @@ def contact(request: ContactRequest):
     )
 
     try:
-        with smtplib.SMTP(smtp_host, smtp_port) as server:
+        with smtplib.SMTP(smtp_host, smtp_port, timeout=10) as server:
             server.starttls()
             server.login(smtp_user, smtp_password)
             server.send_message(email_msg)
-    except smtplib.SMTPException as e:
+    except (smtplib.SMTPException, OSError) as e:
         raise HTTPException(status_code=502, detail="Could not send the message") from e
 
     return {"status": "ok"}
