@@ -22,6 +22,7 @@ export function ChatWidget() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const conversationIdRef = useRef<string>(crypto.randomUUID());
 
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight });
@@ -58,7 +59,10 @@ export function ChatWidget() {
       const res = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: nextMessages }),
+        body: JSON.stringify({
+          messages: nextMessages,
+          conversation_id: conversationIdRef.current,
+        }),
       });
 
       if (!res.ok) throw new Error(`Request failed (${res.status})`);

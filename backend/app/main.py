@@ -6,9 +6,10 @@ from email.message import EmailMessage
 from typing import Optional
 
 import gspread
+import requests
 from anthropic import Anthropic, APIConnectionError, APIStatusError
 from dotenv import load_dotenv
-from fastapi import FastAPI, HTTPException
+from fastapi import BackgroundTasks, FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from google.oauth2.service_account import Credentials
 from pydantic import BaseModel
@@ -52,12 +53,63 @@ def _get_questions_sheet():
     return _questions_sheet
 
 
-def _log_question(question: str) -> None:
+def _lookup_location(ip: str) -> str:
+    try:
+        resp = requests.get(
+            f"http://ip-api.com/json/{ip}",
+            params={"fields": "status,country,city"},
+            timeout=3,
+        )
+        data = resp.json()
+        if data.get("status") == "success":
+            return ", ".join(p for p in (data.get("city"), data.get("country")) if p)
+    except Exception:
+        pass
+    return "Unknown"
+
+
+def _parse_user_agent(user_agent: str) -> str:
+    ua = user_agent.lower()
+
+    if "edg" in ua:
+        browser = "Edge"
+    elif "firefox" in ua:
+        browser = "Firefox"
+    elif "chrome" in ua and "chromium" not in ua:
+        browser = "Chrome"
+    elif "safari" in ua and "chrome" not in ua:
+        browser = "Safari"
+    else:
+        browser = "Unknown browser"
+
+    if "iphone" in ua or "ipad" in ua:
+        os_name = "iOS"
+    elif "android" in ua:
+        os_name = "Android"
+    elif "mac os" in ua:
+        os_name = "macOS"
+    elif "windows" in ua:
+        os_name = "Windows"
+    elif "linux" in ua:
+        os_name = "Linux"
+    else:
+        os_name = "Unknown OS"
+
+    return f"{browser} on {os_name}"
+
+
+def _log_question(question: str, conversation_id: str, ip: str, user_agent: str) -> None:
     try:
         sheet = _get_questions_sheet()
         if sheet is None:
             return
-        sheet.append_row([datetime.now(timezone.utc).isoformat(), question])
+        sheet.append_row([
+            datetime.now(timezone.utc).isoformat(),
+            question,
+            conversation_id,
+            _lookup_location(ip),
+            _parse_user_agent(user_agent),
+        ])
     except Exception:
         pass  # a logging failure should never break the chat response
 
@@ -69,10 +121,11 @@ class ChatMessage(BaseModel):
 
 class ChatRequest(BaseModel):
     messages: list[ChatMessage]
+    conversation_id: Optional[str] = None
 
 
 @app.post("/chat")
-def chat(request: ChatRequest):
+def chat(request: ChatRequest, http_request: Request, background_tasks: BackgroundTasks):
     history = [m for m in request.messages if m.role in ("user", "assistant")]
     while history and history[0].role != "user":
         history.pop(0)
@@ -82,7 +135,17 @@ def chat(request: ChatRequest):
         raise HTTPException(status_code=400, detail="No user message provided")
 
     if history[-1].role == "user":
-        _log_question(history[-1].content)
+        forwarded_for = http_request.headers.get("x-forwarded-for", "")
+        client_host = http_request.client.host if http_request.client else ""
+        ip = forwarded_for.split(",")[0].strip() or client_host
+        user_agent = http_request.headers.get("user-agent", "")
+        background_tasks.add_task(
+            _log_question,
+            history[-1].content,
+            request.conversation_id or "unknown",
+            ip,
+            user_agent,
+        )
 
     try:
         response = client.messages.create(
