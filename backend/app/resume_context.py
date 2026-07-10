@@ -16,6 +16,13 @@ GitHub: https://github.com/hemapriya12
 Location: Bengaluru, Karnataka, India
 Notice Period / Last Working Day: Currently on the bench — available to join immediately, no notice period.
 Personal: Married, with one child. Husband works in the automobile sector.
+Work Mode: Open to Remote, Hybrid, or Onsite — anywhere.
+Relocation: Open to relocating; Bengaluru or Chennai both work.
+Preferred Role: Lead / Senior Developer / Architect.
+Salary Expectations: Prefers to discuss directly on a call rather than share a number here.
+Work Authorization: Open to working outside India, but currently only holds work authorization for India.
+Preferred Tech Stack: Full Stack development.
+Interview Availability: Anytime.
 
 # Summary
 Senior Software Engineer with 10+ years of experience in designing and developing scalable web,
