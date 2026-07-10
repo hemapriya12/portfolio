@@ -12,6 +12,11 @@ Email: hemapriya12t@gmail.com
 LinkedIn: https://www.linkedin.com/in/hemapriya12t
 GitHub: https://github.com/hemapriya12
 
+# Availability
+Location: Bengaluru, Karnataka, India
+Notice Period / Last Working Day: Currently on the bench — available to join immediately, no notice period.
+Personal: Married, with one child. Husband works in the automobile sector.
+
 # Summary
 Senior Software Engineer with 10+ years of experience in designing and developing scalable web,
 mobile, and Smart TV applications. Expertise in React.js, React Native, TypeScript, JavaScript,
