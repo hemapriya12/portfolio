@@ -13,7 +13,7 @@ LinkedIn: https://www.linkedin.com/in/hemapriya12t
 GitHub: https://github.com/hemapriya12
 
 # Availability
-Location: Bengaluru, Karnataka, India
+Location: KR Puram, Bengaluru, Karnataka, India
 Notice Period / Last Working Day: Currently on the bench — available to join immediately, no notice period.
 Personal: Married, with one child. Husband works in the automobile sector.
 Work Mode: Open to Remote, Hybrid, or Onsite — anywhere.
