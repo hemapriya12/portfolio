@@ -2,8 +2,6 @@
 
 import { useState } from "react";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
-
 type Status = "idle" | "submitting" | "success" | "error";
 
 export function ContactForm() {
@@ -19,7 +17,7 @@ export function ContactForm() {
     setErrorMessage("");
 
     try {
-      const res = await fetch(`${API_URL}/contact`, {
+      const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

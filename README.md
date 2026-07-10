@@ -15,7 +15,7 @@ Portfolio/
 ```bash
 cd frontend
 npm install
-cp .env.local.example .env.local   # set NEXT_PUBLIC_API_URL if backend isn't on localhost:8000
+cp .env.local.example .env.local   # set API_URL if backend isn't on localhost:8000
 npm run dev
 ```
 
@@ -24,6 +24,8 @@ Open http://localhost:3000.
 **Adding the real intro video:** drop your video file at `frontend/public/videos/intro.mp4`. Until then, the hero shows your photo as a poster frame with a video player that has no source.
 
 **Colors / theme:** all colors live as CSS variables in `frontend/src/app/globals.css` (dusty teal accent, light/dark variants). Edit there to retheme.
+
+**How the chat widget and contact form reach the backend:** the browser never calls the FastAPI backend directly. It calls same-origin Next.js routes (`frontend/src/app/api/chat/route.ts` and `.../api/contact/route.ts`), which run server-side and forward the request to the real backend URL read from the private `API_URL` env var. This keeps the backend URL out of the browser-visible JS bundle entirely (unlike a `NEXT_PUBLIC_*` var, which gets baked into the static bundle at build time) and avoids needing CORS between Vercel and Render, since the only cross-origin call is server-to-server.
 
 **Resume content:** all text (experience, skills, education, certifications) lives in `frontend/src/lib/resumeData.ts` — edit that file to update the site without touching components.
 
@@ -45,7 +47,7 @@ The chatbot answers only from the resume context baked into `backend/app/resume_
 
 ## Deploying
 
-**Frontend → Vercel:** import the repo, set the root directory to `frontend`, and add the env var `NEXT_PUBLIC_API_URL` pointing at your deployed backend URL.
+**Frontend → Vercel:** import the repo, set the root directory to `frontend`, and add the env var `API_URL` (no `NEXT_PUBLIC_` prefix — it's read server-side only, in the `/api/*` routes) pointing at your deployed backend URL. Changing it later requires a redeploy to take effect — that's a Vercel platform behavior for all env vars, not specific to this one.
 
 **Backend → Render:** `backend/render.yaml` is a ready-to-use Render blueprint. Push the repo, create a new Blueprint on Render pointed at `backend/`, and set the `ANTHROPIC_API_KEY` and `ALLOWED_ORIGINS` (your Vercel URL) secrets when prompted.
 
@@ -60,5 +62,5 @@ The chatbot answers only from the resume context baked into `backend/app/resume_
 4. DNS propagation can take a few minutes to a few hours. Vercel auto-issues an SSL cert once it verifies the records.
 5. Deploy `backend/` to Render, then optionally give it a subdomain too: add a `CNAME` record `api` → `<your-render-service>.onrender.com` in GoDaddy, and add `api.hemapriya.tech` as a custom domain in Render's dashboard.
 6. Update env vars to match:
-   - Vercel: `NEXT_PUBLIC_API_URL=https://api.hemapriya.tech`
-   - Render: `ALLOWED_ORIGINS=https://hemapriya.tech,https://www.hemapriya.tech`
+   - Vercel: `API_URL=https://api.hemapriya.tech`
+   - Render: `ALLOWED_ORIGINS=https://hemapriya.tech,https://www.hemapriya.tech` (mostly a formality now — see note above on how the two talk to each other)

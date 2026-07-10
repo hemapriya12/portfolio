@@ -8,8 +8,6 @@ type Message = {
   content: string;
 };
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
-
 const INITIAL_MESSAGE: Message = {
   role: "assistant",
   content: `Hi! I'm ${profile.name}'s portfolio assistant. Ask me about her experience, skills, or projects.`,
@@ -57,7 +55,7 @@ export function ChatWidget() {
     setError(null);
 
     try {
-      const res = await fetch(`${API_URL}/chat`, {
+      const res = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ messages: nextMessages }),
