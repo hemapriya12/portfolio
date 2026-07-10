@@ -69,7 +69,7 @@ export function Hero() {
             className="animate-fade-in-up mt-3 text-4xl font-semibold leading-tight text-white sm:text-5xl"
             style={{ animationDelay: "100ms" }}
           >
-            Hi, I&apos;m {profile.name.split(" ")[0]}.
+            Hi, I&apos;m {profile.name}.
           </h1>
           <p
             className="animate-fade-in-up mt-2 text-xl font-medium text-accent sm:text-2xl"
