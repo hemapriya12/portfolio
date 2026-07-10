@@ -1,0 +1,235 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --background: #f6fbf8;
+  --surface: #ffffff;
+  --surface-alt: #ecf5ef;
+  --foreground: #16211a;
+  --muted: #55655c;
+  --border: #dceae1;
+  --accent: #0a8850;
+  --accent-foreground: #ffffff;
+  --accent-soft: #e3f5eb;
+}
+
+.dark {
+  --background: #0e1512;
+  --surface: #16201a;
+  --surface-alt: #121c16;
+  --foreground: #e7f5ec;
+  --muted: #9fb3a7;
+  --border: #24352b;
+  --accent: #3ee28c;
+  --accent-foreground: #0b1710;
+  --accent-soft: #1b3327;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-alt: var(--surface-alt);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent-soft: var(--accent-soft);
+  --font-sans: var(--font-inter);
+}
+
+* {
+  border-color: var(--border);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease;
+}
+
+/* Liquid glass */
+.glass {
+  background: color-mix(in srgb, var(--surface) 55%, transparent);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  border: 1px solid color-mix(in srgb, var(--foreground) 10%, transparent);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 color-mix(in srgb, white 25%, transparent);
+}
+
+.dark .glass {
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 color-mix(in srgb, white 8%, transparent);
+}
+
+/* Gradient-border cards */
+.card-glow {
+  position: relative;
+  padding: 1px;
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--accent) 40%, transparent) 0%,
+    color-mix(in srgb, var(--border) 70%, transparent) 65%
+  );
+  transition: background 0.4s ease;
+}
+
+.card-glow:hover {
+  background: linear-gradient(
+    135deg,
+    var(--accent) 0%,
+    color-mix(in srgb, var(--accent) 30%, transparent) 100%
+  );
+}
+
+/* Floating gradient blobs */
+.blob {
+  position: absolute;
+  border-radius: 9999px;
+  background: var(--accent);
+  opacity: 0.18;
+  filter: blur(60px);
+  animation: blob-float 16s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes blob-float {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(30px, -34px) scale(1.08);
+  }
+  66% {
+    transform: translate(-24px, 22px) scale(0.94);
+  }
+}
+
+/* Shine sweep for primary buttons */
+.btn-shine {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-shine::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    120deg,
+    transparent 30%,
+    color-mix(in srgb, white 55%, transparent) 50%,
+    transparent 70%
+  );
+  transform: translateX(-120%) skewX(-15deg);
+}
+
+.btn-shine:hover::after {
+  animation: shine-sweep 0.9s ease forwards;
+}
+
+@keyframes shine-sweep {
+  to {
+    transform: translateX(220%) skewX(-15deg);
+  }
+}
+
+/* Mount-triggered entrance animation (hero, above-the-fold content) */
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Animated underline for nav links */
+.nav-link {
+  position: relative;
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -3px;
+  height: 1px;
+  width: 100%;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+
+.nav-link:hover::after {
+  transform: scaleX(1);
+}
+
+/* Bouncing dots for "typing" indicators */
+@keyframes bounce-dot {
+  0%,
+  80%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.5;
+  }
+  40% {
+    transform: translateY(-4px);
+    opacity: 1;
+  }
+}
+
+.bounce-dot {
+  animation: bounce-dot 1.2s ease-in-out infinite;
+}
+
+/* Gentle continuous float, for icons/badges */
+@keyframes float-y {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+.animate-float {
+  animation: float-y 4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .blob {
+    animation: none;
+  }
+  .btn-shine::after {
+    display: none;
+  }
+  .animate-fade-in-up {
+    animation: none;
+  }
+  .bounce-dot {
+    animation: none;
+  }
+  .animate-float {
+    animation: none;
+  }
+}

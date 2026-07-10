@@ -1,0 +1,35 @@
+# Dependencies
+node_modules/
+.venv/
+venv/
+
+# Next.js build output
+frontend/.next/
+frontend/out/
+frontend/next-env.d.ts
+
+# Environment secrets — never commit real .env files
+.env
+.env.local
+*.env
+!*.env.example
+
+# Python
+__pycache__/
+*.pyc
+
+# OS
+.DS_Store
+
+# Editor
+.vscode/
+.idea/
+
+# Logs
+*.log
+
+# Reference material — someone else's project, kept locally for design inspiration only
+AnotherPortfolio/
+
+# Original source video (already remuxed to frontend/public/videos/veloria-demo.mp4, which is committed)
+frontend/public/videos/Veloria video.mov
