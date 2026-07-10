@@ -1,12 +1,16 @@
+import json
 import os
 import smtplib
+from datetime import datetime, timezone
 from email.message import EmailMessage
 from typing import Optional
 
+import gspread
 from anthropic import Anthropic, APIConnectionError, APIStatusError
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from google.oauth2.service_account import Credentials
 from pydantic import BaseModel
 
 from .resume_context import SYSTEM_PROMPT
@@ -27,6 +31,36 @@ client = Anthropic()
 MODEL = os.environ.get("CLAUDE_MODEL", "claude-opus-4-8")
 MAX_HISTORY_MESSAGES = 20
 
+_questions_sheet = None
+
+
+def _get_questions_sheet():
+    global _questions_sheet
+    if _questions_sheet is not None:
+        return _questions_sheet
+
+    creds_json = os.environ.get("GOOGLE_SERVICE_ACCOUNT_JSON")
+    sheet_id = os.environ.get("GOOGLE_SHEET_ID")
+    if not creds_json or not sheet_id:
+        return None
+
+    creds = Credentials.from_service_account_info(
+        json.loads(creds_json),
+        scopes=["https://www.googleapis.com/auth/spreadsheets"],
+    )
+    _questions_sheet = gspread.authorize(creds).open_by_key(sheet_id).sheet1
+    return _questions_sheet
+
+
+def _log_question(question: str) -> None:
+    try:
+        sheet = _get_questions_sheet()
+        if sheet is None:
+            return
+        sheet.append_row([datetime.now(timezone.utc).isoformat(), question])
+    except Exception:
+        pass  # a logging failure should never break the chat response
+
 
 class ChatMessage(BaseModel):
     role: str
@@ -46,6 +80,9 @@ def chat(request: ChatRequest):
 
     if not history:
         raise HTTPException(status_code=400, detail="No user message provided")
+
+    if history[-1].role == "user":
+        _log_question(history[-1].content)
 
     try:
         response = client.messages.create(

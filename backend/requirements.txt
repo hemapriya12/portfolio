@@ -3,3 +3,5 @@ uvicorn[standard]>=0.34
 anthropic>=0.68
 pydantic>=2.10
 python-dotenv>=1.0
+gspread>=6.1
+google-auth>=2.35
