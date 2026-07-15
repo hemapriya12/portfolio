@@ -10,7 +10,7 @@ type Message = {
 
 const INITIAL_MESSAGE: Message = {
   role: "assistant",
-  content: `Hi! I'm ${profile.name}'s portfolio assistant. Ask me about her experience, skills, or projects.`,
+  content: `Hi! I'm ${profile.name}'s AI assistant, built and hosted by her (Claude under the hood). Ask me about her experience, skills, or projects.`,
 };
 
 export function ChatWidget() {
@@ -88,8 +88,11 @@ export function ChatWidget() {
         >
           <div className="flex items-center justify-between border-b border-border bg-accent/10 px-4 py-3 backdrop-blur-sm">
             <div>
-              <p className="text-sm font-semibold">Ask about {profile.name.split(" ")[0]}</p>
-              <p className="text-xs text-muted">Usually replies instantly</p>
+              <p className="flex items-center gap-1.5 text-sm font-semibold">
+                <SparkleIcon />
+                AI Assistant
+              </p>
+              <p className="text-xs text-muted">Powered by Claude · built by {profile.name.split(" ")[0]}</p>
             </div>
             <button
               type="button"
@@ -164,14 +167,21 @@ export function ChatWidget() {
             </>
           ) : (
             <>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6">
-                <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
-              </svg>
-              <span className="text-sm font-medium">Chat with me</span>
+              <SparkleIcon className="h-5 w-5" />
+              <span className="text-sm font-medium">Ask my AI Assistant</span>
             </>
           )}
         </button>
       </div>
     </div>
+  );
+}
+
+function SparkleIcon({ className = "h-4 w-4" }: { className?: string }) {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className={className}>
+      <path d="M12 2.5c.4 3.1 1.2 5.1 2.5 6.4 1.3 1.3 3.3 2.1 6.4 2.5-3.1.4-5.1 1.2-6.4 2.5-1.3 1.3-2.1 3.3-2.5 6.4-.4-3.1-1.2-5.1-2.5-6.4C8.2 12.6 6.2 11.8 3.1 11.4c3.1-.4 5.1-1.2 6.4-2.5 1.3-1.3 2.1-3.3 2.5-6.4Z" />
+      <path d="M19 2.5c.15 1.1.45 1.9.95 2.4.5.5 1.3.8 2.4.95-1.1.15-1.9.45-2.4.95-.5.5-.8 1.3-.95 2.4-.15-1.1-.45-1.9-.95-2.4-.5-.5-1.3-.8-2.4-.95 1.1-.15 1.9-.45 2.4-.95.5-.5.8-1.3.95-2.4Z" />
+    </svg>
   );
 }

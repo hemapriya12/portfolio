@@ -26,7 +26,14 @@ export function Projects() {
                 <ProjectVideo src={project.video} />
 
                 <div className="flex flex-col justify-center p-6 sm:p-8">
-                  <h3 className="text-xl font-semibold">{project.name}</h3>
+                  <div className="flex flex-wrap items-center gap-2">
+                    <h3 className="text-xl font-semibold">{project.name}</h3>
+                    {project.badge && (
+                      <span className="rounded-full bg-gradient-to-r from-accent to-accent/70 px-3 py-1 text-xs font-semibold text-accent-foreground shadow-sm">
+                        {project.badge}
+                      </span>
+                    )}
+                  </div>
                   <p className="mt-3 text-sm leading-relaxed text-muted">
                     {project.description}
                   </p>

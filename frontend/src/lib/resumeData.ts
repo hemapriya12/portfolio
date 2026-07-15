@@ -1,18 +1,22 @@
 export const profile = {
   name: "Hema Priya",
-  title: "Senior Software Engineer",
+  title: "Senior Software and AI Engineer",
   tagline:
-    "I build fast, reliable React, React Native, and Node.js experiences for web, mobile, and Smart TV.",
+    "I build fast, reliable React, React Native, and Node.js experiences for web, mobile, and Smart TV — and increasingly, agentic AI systems powered by Claude, LangGraph, and RAG pipelines.",
   welcome: "Welcome to my portfolio.",
   phone: "+91 8754207970",
   email: "hemapriya12t@gmail.com",
   linkedin: "https://www.linkedin.com/in/hemapriya12t",
   github: "https://github.com/hemapriya12",
   summary:
-    "Senior Software Engineer with 10+ years of experience in designing and developing scalable web, mobile, and Smart TV applications. Expertise in React.js, React Native, TypeScript, JavaScript, Node.js, Next.js and AWS, with a strong focus on frontend architecture, performance optimization, reusable component design, and delivering high-quality user experiences across enterprise-scale applications.",
+    "Senior Software and AI Engineer with 10+ years of experience building scalable web, mobile, and Smart TV applications. Expertise in React.js, React Native, TypeScript, Node.js, Next.js, and AWS, with a strong focus on frontend architecture and performance optimization. Actively expanding into AI engineering building agentic systems with Anthropic Claude, LangGraph, and RAG pipelines. Focused on delivering high-quality, AI-augmented user experiences across enterprise-scale applications.",
 };
 
 export const skills = [
+  {
+    category: "AI",
+    items: ["Agentic AI", "LangGraph", "LangChain", "RAG", "Vector Embeddings"],
+  },
   {
     category: "Frontend",
     items: [
@@ -29,11 +33,21 @@ export const skills = [
   },
   {
     category: "Backend",
-    items: ["Node.js", "Express.js"],
+    items: [
+      "Node.js",
+      "Express.js",
+      "Python",
+      "FastAPI",
+      "Pydantic",
+      "Alembic",
+      "Claude",
+      "ChatGPT",
+      "Gemini",
+    ],
   },
   {
     category: "Cloud & DevOps",
-    items: ["AWS", "Docker"],
+    items: ["AWS", "Docker", "Vercel", "Terraform"],
   },
   {
     category: "Databases",
@@ -47,23 +61,26 @@ export const skills = [
     category: "Testing",
     items: ["Jest", "React Testing Library"],
   },
+  {
+    category: "Soft Skills",
+    items: ["Team Leadership", "Cross-functional Collaboration", "Effective Communication", "Time Management"],
+  },
 ];
 
 export const experienceByCompany = [
   {
     company: "GlobalLogic",
     short: "GL",
-    location: "Chennai, India",
+    location: "Bengaluru, India",
     roles: [
       {
         title: "Senior Software Engineer (Amazon Fire TV)",
         start: "Dec 2025",
         end: "Present",
         bullets: [
-          "Designed and built new screens for the audio enhancement experience, including Settings and Quick View screens, from Figma hand-off to production.",
-          "Collaborated closely with the backend hardware team to align UI behaviour with device-level audio capabilities and constraints.",
-          "Resolved high-priority bugs in the settings screen of Amazon Fire TV, improving stability and user-reported issue turnaround.",
-          "Worked across the React / TypeScript front end, contributing to component architecture and code reviews in an agile, cross-functional team.",
+          "Designed and built new screens for the audio enhancement experience — including Settings and Quick View — from Figma hand-off to production, using React and TypeScript with a focus on component architecture.",
+          "Collaborated closely with the backend hardware team to align UI behaviour with device-level audio capabilities and constraints, contributing to code reviews in an agile, cross-functional team.",
+          "Resolved high-priority bugs in the Settings screen of Amazon Fire TV, improving stability and user-reported issue turnaround.",
         ],
       },
     ],
@@ -82,7 +99,7 @@ export const experienceByCompany = [
           "Designed and developed scalable Next.js and React.js applications using TypeScript, delivering responsive and high-performance user experiences.",
           "Built reusable UI component libraries and implemented modern frontend architecture patterns, improving maintainability and accelerating feature delivery.",
           "Optimized application performance through Server-Side Rendering (SSR), Static Site Generation (SSG), code splitting, lazy loading, and caching strategies.",
-          "Migrated a large enterprise frontend codebase from JavaScript to TypeScript, integrated GraphQL APIs for efficient data fetching, and established testing standards using Jest and React Testing Library.",
+          "Integrated GraphQL APIs for efficient data fetching and established testing standards using Jest and React Testing Library, improving code quality, reliability, and application responsiveness.",
         ],
       },
       {
@@ -103,7 +120,7 @@ export const experienceByCompany = [
         end: "Oct 2019",
         bullets: [
           "Worked in SQL to manage business critical requests, data fixes, and complex reports over huge datasets.",
-          "Architected end-to-end automation pipelines for batch monitoring, trade processing, and common application failures, saving ~£50K in operational costs and 10 Person-Days of effort.",
+          "Architected end-to-end automation pipelines for batch monitoring, trade processing, and common application failures, saving ~£50K in operational costs and 10 Person-Days (PD) of effort.",
           "Developed highly efficient stored procedures to automate repetitive database tasks, cutting down manual workloads by 25%.",
           "Spearheaded triaging and resolving high-severity, complex banking application infrastructure issues under strict SLA deadlines.",
         ],
@@ -128,7 +145,49 @@ export const experienceByCompany = [
   },
 ];
 
-export const projects = [
+type Project = {
+  name: string;
+  badge?: string;
+  description: string;
+  video: string;
+  liveUrl: string;
+  githubUrl: string;
+  tech: string[];
+};
+
+export const projects: Project[] = [
+  {
+    name: "Sage",
+    badge: "🤖 Agentic AI",
+    description:
+      "Sage is an AI-powered personal finance app with agentic stock research: autonomous agents decide what data to look up before forecasting, screen real markets via a live-data pipeline, and answer natural-language questions over your own transaction history using RAG.",
+    video: "/videos/veloria-demo.mp4",
+    liveUrl: "https://sage-frontend-steel.vercel.app",
+    githubUrl: "https://github.com/hemapriya12/sage",
+    tech: [
+      "Anthropic Claude",
+      "OpenAI Embeddings",
+      "Groq",
+      "LangGraph",
+      "LangChain",
+      "pgvector",
+      "Next.js",
+      "TypeScript",
+      "Tailwind CSS",
+      "NextAuth.js",
+      "Recharts",
+      "FastAPI",
+      "Python",
+      "SQLAlchemy",
+      "Alembic",
+      "Pydantic",
+      "PostgreSQL (Neon)",
+      "Vercel",
+      "GitHub Actions",
+      "Terraform",
+      "Docker",
+    ],
+  },
   {
     name: "Veloria",
     description:
@@ -178,6 +237,7 @@ export const education = [
 ];
 
 export const certifications = [
+  "AI Engineer Production Track: Deploy LLMs & Agents at Scale – Udemy",
   "Software Architecture and Design of Modern Large Scale Systems – Udemy",
   "Digital: Front End Developer React JS",
   "JavaScript (Basic) Skill Certification – HackerRank",
