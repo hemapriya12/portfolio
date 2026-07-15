@@ -83,7 +83,7 @@ export function HeroVideo() {
         <button
           type="button"
           onClick={startWithSound}
-          className="group absolute inset-0 z-10 flex items-center justify-center bg-black/20 transition-colors hover:bg-black/30"
+          className="group absolute inset-0 z-10 flex items-start justify-center bg-black/20 pt-[24vh] transition-colors hover:bg-black/30 sm:items-center sm:pt-0"
         >
           <span className="flex flex-col items-center gap-3">
             <span className="flex h-16 w-16 items-center justify-center rounded-full bg-white/90 text-accent shadow-lg transition-transform group-hover:scale-105">

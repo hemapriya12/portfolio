@@ -32,9 +32,9 @@ building agentic systems with Anthropic Claude, LangGraph, and RAG pipelines. Fo
 high-quality, AI-augmented user experiences across enterprise-scale applications.
 
 # Skills
-AI: Agentic AI, LangGraph, LangChain, RAG, Vector Embeddings
+AI: Agentic AI, LangGraph, LangChain, RAG, Vector Embeddings, Claude, ChatGPT, Gemini
 Frontend: React.js, Redux, React Native (Mobile & Smart TV), TypeScript, Next.js, JavaScript, HTML5, CSS3, Tailwind CSS
-Backend: Node.js, Express.js, Python, FastAPI, Pydantic, Alembic, Claude, ChatGPT, Gemini
+Backend: Node.js, Express.js, Python, FastAPI, Pydantic, Alembic
 Cloud & DevOps: AWS, Docker, Vercel, Terraform
 Databases: MongoDB, PostgreSQL, MySQL, Microsoft SQL Server
 API & Tools: RESTful APIs, GraphQL, Figma, Git, GitHub

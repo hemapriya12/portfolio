@@ -15,7 +15,7 @@ export const profile = {
 export const skills = [
   {
     category: "AI",
-    items: ["Agentic AI", "LangGraph", "LangChain", "RAG", "Vector Embeddings"],
+    items: ["Agentic AI", "LangGraph", "LangChain", "RAG", "Vector Embeddings", "Claude", "ChatGPT", "Gemini"],
   },
   {
     category: "Frontend",
@@ -33,17 +33,7 @@ export const skills = [
   },
   {
     category: "Backend",
-    items: [
-      "Node.js",
-      "Express.js",
-      "Python",
-      "FastAPI",
-      "Pydantic",
-      "Alembic",
-      "Claude",
-      "ChatGPT",
-      "Gemini",
-    ],
+    items: ["Node.js", "Express.js", "Python", "FastAPI", "Pydantic", "Alembic"],
   },
   {
     category: "Cloud & DevOps",
