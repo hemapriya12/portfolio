@@ -25,6 +25,20 @@ export function ChatWidget() {
   const conversationIdRef = useRef<string>(crypto.randomUUID());
 
   useEffect(() => {
+    fetch("/api/visit", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        conversation_id: conversationIdRef.current,
+        referrer: document.referrer || null,
+      }),
+      keepalive: true,
+    }).catch(() => {
+      // Visit logging is best-effort — never block the page on it.
+    });
+  }, []);
+
+  useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight });
   }, [messages, open]);
 

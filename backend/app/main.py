@@ -96,20 +96,52 @@ def _parse_user_agent(user_agent: str) -> str:
     return f"{browser} on {os_name}"
 
 
-def _log_question(question: str, conversation_id: str, ip: str, user_agent: str) -> None:
+def _log_event(
+    event_type: str,
+    detail: str,
+    conversation_id: str,
+    ip: str,
+    user_agent: str,
+    referrer: str = "",
+) -> None:
     try:
         sheet = _get_questions_sheet()
         if sheet is None:
             return
         sheet.append_row([
             datetime.now(timezone.utc).isoformat(),
-            question,
+            event_type,
+            detail,
             conversation_id,
             _lookup_location(ip),
             _parse_user_agent(user_agent),
+            referrer,
         ])
     except Exception:
-        pass  # a logging failure should never break the chat response
+        pass  # a logging failure should never break the response
+
+
+class VisitRequest(BaseModel):
+    conversation_id: str
+    referrer: Optional[str] = None
+
+
+@app.post("/visit")
+def visit(request: VisitRequest, http_request: Request, background_tasks: BackgroundTasks):
+    forwarded_for = http_request.headers.get("x-forwarded-for", "")
+    client_host = http_request.client.host if http_request.client else ""
+    ip = forwarded_for.split(",")[0].strip() or client_host
+    user_agent = http_request.headers.get("user-agent", "")
+    background_tasks.add_task(
+        _log_event,
+        "Visit",
+        "",
+        request.conversation_id,
+        ip,
+        user_agent,
+        request.referrer or "",
+    )
+    return {"status": "ok"}
 
 
 class ChatMessage(BaseModel):
@@ -138,7 +170,8 @@ def chat(request: ChatRequest, http_request: Request, background_tasks: Backgrou
         ip = forwarded_for.split(",")[0].strip() or client_host
         user_agent = http_request.headers.get("user-agent", "")
         background_tasks.add_task(
-            _log_question,
+            _log_event,
+            "Question",
             history[-1].content,
             request.conversation_id or "unknown",
             ip,

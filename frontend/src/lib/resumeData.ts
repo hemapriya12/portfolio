@@ -151,7 +151,7 @@ export const projects: Project[] = [
     badge: "🤖 Agentic AI",
     description:
       "Sage is an AI-powered personal finance app with agentic stock research: autonomous agents decide what data to look up before forecasting, screen real markets via a live-data pipeline, and answer natural-language questions over your own transaction history using RAG.",
-    video: "/videos/veloria-demo.mp4",
+    video: "/videos/sage-demo.mp4",
     liveUrl: "https://sage-frontend-steel.vercel.app",
     githubUrl: "https://github.com/hemapriya12/sage",
     tech: [
