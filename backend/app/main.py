@@ -182,7 +182,7 @@ def contact(request: ContactRequest):
         raise HTTPException(status_code=500, detail="Email sending is not configured")
 
     contact_to = os.environ.get("CONTACT_TO_EMAIL", "hemapriya12t@gmail.com")
-    resend_from = os.environ.get("RESEND_FROM", "Portfolio Contact Form <onboarding@resend.com>")
+    resend_from = os.environ.get("RESEND_FROM", "Portfolio Contact Form <onboarding@resend.dev>")
 
     try:
         resp = requests.post(
@@ -202,8 +202,7 @@ def contact(request: ContactRequest):
         )
         resp.raise_for_status()
     except requests.RequestException as e:
-        detail = getattr(e.response, "text", None) or str(e)
-        raise HTTPException(status_code=502, detail=f"Could not send the message: {detail}") from e
+        raise HTTPException(status_code=502, detail="Could not send the message") from e
 
     return {"status": "ok"}
 
