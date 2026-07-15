@@ -55,7 +55,7 @@ export function StickyNav() {
         </ul>
         <div className="flex shrink-0 items-center gap-3">
           <a
-            href={`mailto:${profile.email}`}
+            href="#contact"
             className="btn-shine hidden rounded-full bg-accent px-4 py-1.5 text-xs font-semibold text-accent-foreground transition-transform hover:scale-105 sm:inline-block"
           >
             Hire Me

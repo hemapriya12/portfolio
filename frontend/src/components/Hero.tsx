@@ -46,7 +46,7 @@ export function Hero() {
         </ul>
         <div className="flex items-center gap-3">
           <a
-            href={`mailto:${profile.email}`}
+            href="#contact"
             className="hidden rounded-full bg-white px-4 py-2 text-xs font-semibold text-neutral-900 transition-opacity hover:opacity-90 sm:inline-block"
           >
             Hire Me
@@ -97,7 +97,7 @@ export function Hero() {
             View my work
           </a>
           <a
-            href={`mailto:${profile.email}`}
+            href="#contact"
             className="rounded-full border border-white/30 px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-white/10"
           >
             Get in touch
