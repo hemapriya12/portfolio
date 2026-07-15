@@ -202,7 +202,8 @@ def contact(request: ContactRequest):
         )
         resp.raise_for_status()
     except requests.RequestException as e:
-        raise HTTPException(status_code=502, detail="Could not send the message") from e
+        detail = getattr(e.response, "text", None) or str(e)
+        raise HTTPException(status_code=502, detail=f"Could not send the message: {detail}") from e
 
     return {"status": "ok"}
 
