@@ -10,4 +10,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Ping backend health endpoint
-        run: curl -sS -f -m 20 https://hema-priya-portfolio-chatbot.onrender.com/health
+        run: curl -sS -f -m 90 https://hema-priya-portfolio-chatbot.onrender.com/health
