@@ -1,8 +1,6 @@
 import json
 import os
-import smtplib
 from datetime import datetime, timezone
-from email.message import EmailMessage
 from typing import Optional
 
 import gspread
@@ -179,30 +177,31 @@ def contact(request: ContactRequest):
     if not request.name.strip() or not request.email.strip() or not request.message.strip():
         raise HTTPException(status_code=400, detail="Name, email, and message are required")
 
-    smtp_user = os.environ.get("SMTP_USER")
-    smtp_password = os.environ.get("SMTP_PASSWORD")
-    if not smtp_user or not smtp_password:
+    resend_api_key = os.environ.get("RESEND_API_KEY")
+    if not resend_api_key:
         raise HTTPException(status_code=500, detail="Email sending is not configured")
 
-    smtp_host = os.environ.get("SMTP_HOST", "smtp.gmail.com")
-    smtp_port = int(os.environ.get("SMTP_PORT", "587"))
-    contact_to = os.environ.get("CONTACT_TO_EMAIL", smtp_user)
-
-    email_msg = EmailMessage()
-    email_msg["Subject"] = f"Portfolio contact from {request.name}"
-    email_msg["From"] = smtp_user
-    email_msg["To"] = contact_to
-    email_msg["Reply-To"] = request.email
-    email_msg.set_content(
-        f"From: {request.name} <{request.email}>\n\n{request.message}"
-    )
+    contact_to = os.environ.get("CONTACT_TO_EMAIL", "hemapriya12t@gmail.com")
+    resend_from = os.environ.get("RESEND_FROM", "Portfolio Contact Form <onboarding@resend.com>")
 
     try:
-        with smtplib.SMTP(smtp_host, smtp_port, timeout=10) as server:
-            server.starttls()
-            server.login(smtp_user, smtp_password)
-            server.send_message(email_msg)
-    except (smtplib.SMTPException, OSError) as e:
+        resp = requests.post(
+            "https://api.resend.com/emails",
+            headers={
+                "Authorization": f"Bearer {resend_api_key}",
+                "Content-Type": "application/json",
+            },
+            json={
+                "from": resend_from,
+                "to": [contact_to],
+                "reply_to": request.email,
+                "subject": f"Portfolio contact from {request.name}",
+                "text": f"From: {request.name} <{request.email}>\n\n{request.message}",
+            },
+            timeout=10,
+        )
+        resp.raise_for_status()
+    except requests.RequestException as e:
         raise HTTPException(status_code=502, detail="Could not send the message") from e
 
     return {"status": "ok"}
